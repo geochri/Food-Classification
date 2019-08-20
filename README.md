@@ -3,7 +3,7 @@
 ![foodbanner](https://www.vision.ee.ethz.ch/datasets_extra/food-101/static/img/food-101.jpg)
 
 Recent growth in nutrition related diseases globally have increased awareness in keeping healthy nutritional habits. Healthy diets reduce the risks of reactions to food intolerance, weight problems, malnutrition and some forms of cancer. There are several applications in existance with which we can manually keep track of what we eat and identify food items before consumption. These applications however require that previous experience with the food item for easy identification. An important question however is: ***what happens if we see a food item for the first time and need to identify it?*** Automated tools of food identification will be of help in such case.
-The advent of Convolutional Neural Networks (CNN) and deep learning based architechtures have opened opportunities for the realization of such automatic tools. Indeed, a lot of mileage has already been made in neural networks based image food classification. However, there are still gaps in accuracy of existing methods implemented. In response, we propose a technique based on a pretrained **Dense-Net-161**, and we enhance class separability using successive augmentation of the data before feeding it to the model. To evaluate our proposed architecture, we have conducted experimental results on a benchmark dataset (Food-101). Our results show better performance with respect to existing approaches. Specifically, we obtained a Top-1 accuracy of 93.27% and Top-5 accuracy around 99.02% on the Food-101
+The advent of Convolutional Neural Networks (CNN) and deep learning based architectures have opened opportunities for the realization of such automatic tools. Indeed, a lot of mileage has already been made in neural networks based image food classification. However, there are still gaps in accuracy of existing methods implemented. In response, we propose a technique based on a pretrained **Dense-Net-161**, and we enhance class separability using successive augmentation of the data before feeding it to the model. To evaluate our proposed architecture, we have conducted experimental results on a benchmark dataset (Food-101). Our results show better performance with respect to existing approaches. Specifically, we obtained a Top-1 accuracy of 93.27% and Top-5 accuracy around 99.02% on the Food-101
 dataset).
 
 | Method 	| Top - 1  	| Top - 5  	| Publication  	|
@@ -40,11 +40,11 @@ dataset).
 
 **Dataset**
 
-Deep learning-based algorithms require large dataset. Foodspoting's FOOD-101  dataset contains a number of different subsets of the full food-101 data. The idea is to make a more exciting simple training set for image analysis than CIFAR10 or MNIST. For this reason the data includes massively downscaled versions of the images to enable quick tests. The data has been reformatted as HDF5 and specifically Keras HDF5Matrix which allows them to be easily read in. The file names indicate the contents of the file. For example
+Deep learning-based algorithms require large dataset. Foodspoting's FOOD-101  dataset contains a number of different subsets of the full food-101 data. The idea is to make a more exciting simple training set for image analysis than CIFAR10 or MNIST. For this reason the data include massively downscaled versions of the images to enable quick tests. The data have been reformatted as HDF5 and specifically Keras HDF5Matrix which allows them to be easily read in. The file names indicate the contents of the file. For example
 
 -   food_c101_n1000_r384x384x3.h5 means there are 101 categories represented, with n=1000 images, that have a resolution of 384x384x3 (RGB, uint8)
     
--   food_test_c101_n1000_r32x32x1.h5 means the data is part of the validation set, has 101 categories represented, with n=1000 images, that have a resolution of 32x32x1 (float32 from -1 to 1)
+-   food_test_c101_n1000_r32x32x1.h5 means the data are part of the validation set, have 101 categories represented, with n=1000 images, that have a resolution of 32x32x1 (float32 from -1 to 1)
 
 ***
 **Model**
@@ -106,9 +106,9 @@ We utilized a system having the following configuration to run the whole program
 
 The machine spent 4-5 days to process the complicated network structure and complete the learning task. We implemented our image classsification pipeline using the latest edition of PyTorch (as at 19/08/2019). We applied the transfer learning method to our model which by using the pretrained Densenet-161 model in the following steps:
 
- - At first, with a pretrrained DenseNet-161 model, we loaded a <a href="https://www.kaggle.com/pytorch/densenet121/kernels">checkpoint</a>. The checkpoints file contains all the tensors after months of training with the ImageNet dataset.
- - Secondly, we redefined the classifier part of the model (i.e `model.Classifier()`) to fit our number of outputs classes (101) as derived from our inout data classes.  Side note: ImageNet trained networks have 1001 output classes by default.
- Below is a sample code snippet for the classifier block (i.e `model.Classifier()`) we implemented. You can observe the number of classes have been modified to fit with the food-101 dataset classes (i.e 101). 
+ - At first, with a pretrained DenseNet-161 model, we loaded a <a href="https://www.kaggle.com/pytorch/densenet121/kernels">checkpoint</a>. The checkpoints file contains all the tensors after months of training with the ImageNet dataset.
+ - Secondly, we redefined the classifier part of the model (i.e `model.Classifier()`) to fit our number of output classes (101) as derived from our input data classes.  Side note: ImageNet trained networks have 1001 output classes by default.
+ Below is a sample code snippet for the classifier block (i.e `model.Classifier()`) we implemented. You can observe the number of classes has been modified to fit with the food-101 dataset classes (i.e 101). 
 ```
 classifier = nn.Sequential(OrderedDict([
                           ('fc1', nn.Linear(1024, 500)),
@@ -119,7 +119,7 @@ classifier = nn.Sequential(OrderedDict([
 ```
 
 To **evaluvate** our model, we split the dataset into training, test and validation in a ratio `8:1:1` i.e the 80% of the whole dataset was used for training and the rest equally split into test and validation. We obtained the model training and test error.
-To improve our model classification accuracy and reduce the derived error values, we fine tuned the network parameters using `Adam` optimizer as defined below. This optimizer requires that we set the `learning rate` and `learning rate decay` parameters. To achieve the minimum loss, we have spent several days tweaking these paramters to find a sweet spot (Patience is always needed in deep learning based applications, and our case was not an exception). Other tunings we performed include the use of dropouts are used to prevent overfitting.
+To improve our model classification accuracy and reduce the derived error values, we fine tuned the network parameters using `Adam` optimizer as defined below. This optimizer requires that we set the `learning rate` and `learning rate decay` parameters. To achieve the minimum loss, we have spent several days tweaking these parameters to find a sweet spot (Patience is always needed in deep learning based applications, and our case was not an exception). Other tunings we performed include the use of dropouts that are used to prevent overfitting.
 Here is a code snippet showing the specific betas for our `Adam` optimizer:
 
 ```
@@ -140,4 +140,4 @@ Here is an illustration depicting the progress due to heavy augmentation and ove
 This work continues, and we intend to implement the following in the coming weeks/months:
 
 - Mobile application for automatic food identification.
-- Inclusion of more food classes in the model classification capability. This will be done by collecting and annotating more data in varying food categories across different parts of the world. Our team is composed of people from different countries and continents, thus we intend to leverage our diversity in achieving this goal.
+- Inclusion of more food classes in the model classification capability. This will be accomplished by collecting and annotating more data in varying food categories across different parts of the world. Our team is composed of people from different countries and continents, thus we intend to leverage our diversity in achieving this goal.
