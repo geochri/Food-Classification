@@ -144,6 +144,8 @@ This work continues, and we intend to implement the following in the coming week
 
 
 
-Team:
-slack names
+###Team:
+<hr>
+- slack names
+
 @Arka, @Stark, @Oladimeji Mudele, @Manisha, @Prakhar Tripathi, @George Christopoulos
