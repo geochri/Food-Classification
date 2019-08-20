@@ -139,5 +139,5 @@ Here is an illustration depicting the progress due to heavy augmentation and ove
 
 This work continues, and we intend to implement the following in the coming weeks/months:
 
-- Web and mobile apps for automatic food identification.
+- Mobile application for automatic food identification.
 - Inclusion of more food classes in the model classification capability. This will be done by collecting and annotating more data in varying food categories across different parts of the world. Our team is composed of people from different countries and continents, thus we intend to leverage our diversity in achieving this goal.
