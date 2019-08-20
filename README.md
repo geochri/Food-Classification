@@ -146,6 +146,6 @@ This work continues, and we intend to implement the following in the coming week
 
 ### Team:
 <hr>
-- slack names
+- slack names on secureprivataischolar.slack.com
 
-@Arka, @Stark, @Oladimeji Mudele, @Manisha, @Prakhar Tripathi, @George Christopoulos
+<strong>@Arka, @George Christopoulos, @Manisha, @Oladimeji Mudele, @Prakhar Tripathi, @Stark</strong>
