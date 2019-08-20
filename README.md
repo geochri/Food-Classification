@@ -141,3 +141,9 @@ This work continues, and we intend to implement the following in the coming week
 
 - Mobile application for automatic food identification.
 - Inclusion of more food classes in the model classification capability. This will be accomplished by collecting and annotating more data in varying food categories across different parts of the world. Our team is composed of people from different countries and continents, thus we intend to leverage our diversity in achieving this goal.
+
+
+
+Team:
+slack names
+@Arka, @Stark, @Oladimeji Mudele, @Manisha, @Prakhar Tripathi, @George Christopoulos
