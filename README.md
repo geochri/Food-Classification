@@ -1,7 +1,9 @@
-## **Food Classification with DenseNet-161**
+﻿## **Food Classification with DenseNet-161**
 ![foodbanner](https://www.vision.ee.ethz.ch/datasets_extra/food-101/static/img/food-101.jpg)
 
-Food applications based on image food classification opened a new realm of challenges for computer vision. Despite of various attempts to solve the same. We believe that better results can be obtained by performing successive augmentation techniques on the data followed by a better pretrained model. To evaluate our proposed architecture, we have conducted experimental results on a benchmark dataset (Food-101). Results demonstrate that our solution shows better performance with respect to existing approaches. (e.g Top-1 accuracy as 93.27% and Top-5 accuracy around 99.02%)
+Recent growth in nutrition related diseases globally have increased awareness in keeping healthy nutritional habits. Healthy diets reduce the risks of reactions to food intolerance, weight problems, malnutrition and some forms of cancer. There are several applications in existance with which we can manually keep track of what we eat and identify food items before consumption. These applications however require that previous experience with the food item for easy identification. What happens if we see a food item for the first time and need to identify it? Automatic methods of food identification will be useful in this case.
+The advent of Convolutional Neural Networks (CNN) and deep learning based architechtures have opened opportunities for the realization of such automatic tool. Indeed, a lot of mileage has already been made in neural networks based image food classification. However, there are still gaps in accuracy of existing methods implemented. In response, we propose a technique based on a pretrained **Densenet121**, and we enhance class separability using successive augmentation of the data before feeding it to the model. To evaluate our proposed architecture, we have conducted experimental results on a benchmark dataset (Food-101). Results demonstrate that our solution shows better performance with respect to existing approaches. (e.g Top-1 accuracy as 93.27% and Top-5 accuracy around 99.02% on the Food-101
+dataset).
 
 | Method 	| Top - 1  	| Top - 5  	| Publication  	|
 |---	|---	|---	|---	|
@@ -29,7 +31,7 @@ Food applications based on image food classification opened a new realm of chall
 ### The Challenge
 <hr>
 
-> *The first goal is to be **able to automatically classify an unknown image** using the dataset, but beyond this there are a number of possibilities for looking at what regions / image components are important for making classifications, identify new types of food as combinations of existing tags, build object detectors which can find similar objects in a full scene.*
+> *The first goal is to be **able to automatically classify food images previously unseen by our model** trained with Food-101 dataset. Beyond this, there are a number of possibilities for looking at what regions / image components are important for making classifications, identify new types of food as combinations of existing tags, build object detectors which can find similar objects in a full scene.*
 
 
 ### Approach
@@ -46,7 +48,7 @@ Deep learning-based algorithms require large dataset. Foodspoting's FOOD-101  da
 ***
 **Model**
 
-Convolutional neural networks increasingly became powerful in large scale image recognition. Alexnet introduced in ILSVRC 2012 had 60 million parameters with 650,000 neurons, consisting of five convolutional layers. Those layers are followed by max pooling,  globally connected layers and around 1000 softmax layers.
+CNNs increasingly became powerful in large scale image recognition. Alexnet introduced in ILSVRC 2012 had 60 million parameters with 650,000 neurons, consisting of five convolutional layers. Those layers are followed by max pooling,  globally connected layers and around 1000 softmax layers.
 With this inspiration, several other architectures were produced to provide better solution. Few of honourable mentions include ZFNet by Zeiler and Fergus, VGGNet by Simonyan et al., GoogLeNet (Inception-v1)  by Szegedy et al and ResNet  by He et al.
  
 **Dense Convolutional Network (DenseNet) [arixv 1608.0699]** is another state-of-the-art CNN architecture inspired by the cascade-correlation learning architecture proposed in NIPS, 1989. The architecture connects each layer to every other layer in a feed-forward fashion. Whereas traditional convolutional networks with L layers have L connections—one between each layer and its subsequent layer—our network has L(L+1) 2 direct connections. For each layer, the feature-maps of all preceding layers are used as inputs, and its own feature-maps are used as inputs into all subsequent layers.
@@ -57,20 +59,20 @@ With this inspiration, several other architectures were produced to provide bett
 
 _Why Densenet?_
 
-They are very popular now because of the subsequent advantages including their ability to alleviate the vanishing-gradient problem, strengthen feature propagation, encourage feature reuse, and substantially reduce the number of parameters.
+The advantages of Densenet include its ability to alleviate the vanishing-gradient problem, strengthen feature propagation, encourage feature reuse, and substantially reduce the number of parameters.
 
 ![net](https://miro.medium.com/max/875/1*UgVPefF8XKR5aITCzD_5sQ.png)
 
  ***
  **Image Preprocessing**
  
-Pytorch provides the API for loading and preprocessing raw images from the user. However, the dataset and the images in the current state aren't suitable for further stages. 
-Successive transformations are introduced in train dataset including <a href="https://pytorch.org/docs/stable/torchvision/transforms.html#torchvision.transforms.RandomRotation" style="text-decoration:none">Random rotation </a>,<a href="https://pytorch.org/docs/stable/torchvision/transforms.html#torchvision.transforms.RandomSizedCrop">Random resized crop</a> ,<a href="https://pytorch.org/docs/stable/torchvision/transforms.html#torchvision.transforms.RandomVerticalFlip">Random horizontal flip</a>, <a href="https://towardsdatascience.com/how-to-improve-your-image-classifier-with-googles-autoaugment-77643f0be0c9">Imagenet policy</a> and at the end <a href="https://pytorch.org/docs/stable/torchvision/transforms.html#torchvision.transforms.Normalize">Normalization</a>.
+Pytorch provides the API for loading and preprocessing raw images from the user. However, the dataset and the images in the raw state as obtained aren't suitable for further processing. 
+Consequently, successive transformations are used to preprocess the training dataset. In our implemetation, these transformations include: <a href="https://pytorch.org/docs/stable/torchvision/transforms.html#torchvision.transforms.RandomRotation" style="text-decoration:none">Random rotation </a>,<a href="https://pytorch.org/docs/stable/torchvision/transforms.html#torchvision.transforms.RandomSizedCrop">Random resized crop</a>, <a href="https://pytorch.org/docs/stable/torchvision/transforms.html#torchvision.transforms.RandomVerticalFlip">Random horizontal flip</a>, <a href="https://towardsdatascience.com/how-to-improve-your-image-classifier-with-googles-autoaugment-77643f0be0c9">Imagenet policy</a> and at the end <a href="https://pytorch.org/docs/stable/torchvision/transforms.html#torchvision.transforms.Normalize">Normalization</a>.
 
-Image preprocessing effectively handles the problem when the pictures were taken in different environment background which speed up the learning pace and slightly improve the output accuracy.
+These preprocessing transforms effectively the disparities in image properties due to pictures different environment background, help the model learn faster and improve the output accuracy.
 
-Transforms for both the training and test data is defined as follows:
-
+In code, our transforms for both the training and test data are defined as follows:
+```
     train_transforms = transforms.Compose([transforms.RandomRotation(30),
                                        transforms.RandomResizedCrop(224),
                                        transforms.RandomHorizontalFlip(),ImageNetPolicy(),
@@ -83,8 +85,8 @@ Transforms for both the training and test data is defined as follows:
                                       transforms.ToTensor(),
                                       transforms.Normalize([0.485, 0.456, 0.406],
                                                            [0.229, 0.224, 0.225])])
-
-An illustration has been attached to depict the outcome of the transforms.
+```
+An illustration has been attached in this repository to depict the outcome of the transforms.
 
 ***
  **Methodology**
@@ -97,12 +99,11 @@ We utilized a system having the following configuration to run the whole program
 | Ram  | 8 Gb  |
 | GPU | Nvidia GTX - 1050ti  |
 
-System almost spent 4-5 days to process the complicated network structure. The framework for deep learning is the latest edition of PyTorch. We applied the transfer learning method to our model which is by using the pretrained model as a <a href="https://www.kaggle.com/pytorch/densenet121/kernels">checkpoint</a> and continue to train the neural network. Reason is pretty simple, ImageNet has very large amount of dataset and is trained on precised with well equipped systems.
+The machine spent 4-5 days to process the complicated network structure and complete the learning task. We implemented our image classsification pipeline using the latest edition of PyTorch (as at 19/08/2019). We applied the transfer learning method to our model which by using the pretrained Densenet-161 model in the following steps:
 
- - At first, use a pretrained model of DenseNet-161. Load a checkpoint from the pretrained model, which is a file that stores all the tensors after months of training for the ImageNet dataset.
- - Second step is to concentrate on the last layer of the network and recognize classes of food images. Remember to shift the classifier from ImageNet to Food-101, 101 means having 101 classes and ImageNet have 1001.
- - Here is a sample code snippet of classifier. You can observe the number of classes have modified to fit with the food dataset. We finally manipulate the softmax. Then we retrain the last layer to get a model based on the pre-trained model.
-
+ - At first, with a pretrrained DenseNet-161 model, we loaded a <a href="https://www.kaggle.com/pytorch/densenet121/kernels">checkpoint</a>. The checkpoints file contains all the tensors after months of training with the ImageNet dataset.
+ - Secondly, we redefined the classifier part of the model (i.e `model.classifier()`) to fit our number of outputs classes (101) as derived from our inout data classes.  Side note: ImageNet trained networks have 1001 output classes by default.
+ - Below is a sample code snippet for the classifier block (i.e `model.classifier()`) we implemented. You can observe the number of classes have been modified to fit with the food-101 dataset classes (i.e 101). 
 ```
 classifier = nn.Sequential(OrderedDict([
                           ('fc1', nn.Linear(1024, 500)),
@@ -111,9 +112,19 @@ classifier = nn.Sequential(OrderedDict([
                           ('output', nn.LogSoftmax(dim=1))
                           ]))
 ```
-- Third step is to evaluvate the result. We splitted the dataset into training, test and validation parts. The training examples take 80% of the whole datasets and the rest are for test and validation. By running the evaluvation on the last layer of the network, we obtain the training and test error.
-- Finally fine tuning the network framework. We need to give the model initial parameters, and setup optimization process. Example - Dropouts are used to prevent overfitting. Adam was used as an optimizer and every optimizer have different parameters, such as learning rate and learning rate decay. To achieve the minimum loss, we have spent several days to find a sweet spot to tweak them.
-Here is the snippet showing the specific betas.
+
+To **evaluvate** our model, we split the dataset into training, test and validation in a ratio `8:1:1` i.e the 80% of the whole dataset was used for traing and the rest equally split into test and validation. We obtained the model training and test error.
+To improve our model classification accuracy and reduce the derived error values, we fine tuned the network framework using `Adam` optimizer as defined below. This optimizer requires that we set the `learning rate` and `learning rate decay` parameters. To achieve the minimum loss, we have spent several days to tweaking these paramters to find a sweet spot (Patience is also needed in deep learning based applications, and our case was not an exception). Other tuning we performed include the use of dropouts are used to prevent overfitting.
+Here is the snippet showing the specific betas for our `Adam` optimizer:
 
 ```
 optimizer = optim.Adam(model.classifier.parameters(), lr=0.001, betas=[0.9, 0.999])```
+
+
+### Future work
+<hr>
+
+This work continues, and we intend to implement the following in the coming weeks/months:
+
+- Web and mobile apps for automatic food identification.
+- Inclusion of more food classes in the model classification capability. This will be done by collecting and annotating more data in varying food categories across different parts of the world. Our team is composed of people from different countries and continents, thus we intend to leverage our diversity in achieving this goal.
