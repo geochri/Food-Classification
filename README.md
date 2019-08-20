@@ -1,3 +1,4 @@
+
 ﻿## **Food Classification with DenseNet-161**
 ![foodbanner](https://www.vision.ee.ethz.ch/datasets_extra/food-101/static/img/food-101.jpg)
 
@@ -88,6 +89,10 @@ Our transforms for both the training and test data are defined as follows:
 ```
 An illustration is attached in this repository to depict the outcome of the transforms.
 
+![flipper](https://i.imgur.com/qeSj9B4.jpg)
+
+![flip](https://i.imgur.com/9HNnqNw.jpg)
+
 ***
  **Methodology**
 
@@ -120,6 +125,14 @@ Here is a code snippet showing the specific betas for our `Adam` optimizer:
 ```
 optimizer = optim.Adam(model.classifier.parameters(), lr=0.001, betas=[0.9, 0.999])```
 ```
+
+### Result
+<hr>
+Here is an illustration depicting the progress due to heavy augmentation and overall accuracy achieved from the model.
+
+![train](https://i.imgur.com/tiuM5OL.jpg)
+
+![result](https://i.imgur.com/pFUXNh0.jpg)
 
 ### Future work
 <hr>
