@@ -144,7 +144,7 @@ This work continues, and we intend to implement the following in the coming week
 
 
 
-###Team:
+### Team:
 <hr>
 - slack names
 
